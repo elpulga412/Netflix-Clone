@@ -1,0 +1,265 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}
+Netflix 
+{% endblock title %}
+
+{% block others %}
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+
+{% endblock others %}
+{% block content %}
+
+    <style>
+        h1 {
+            padding-top: 60px;  
+        }
+
+        .main-container {
+            padding: 50px;
+        }
+        
+        .box {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(6, minmax(100px, 1fr));
+        }
+        
+        .box a {
+            transition: transform .3s;  
+        }
+        
+        .box a:hover {
+            transition: transform .3s;
+            -ms-transform: scale(1.4);
+            -webkit-transform: scale(1.4);  
+            transform: scale(1.4);
+        }
+        
+        .box img {
+            border-radius: 2px;
+        }
+
+
+        @media(max-width: 900px) {
+        
+        /* header {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas: 
+        "nt nt nt  .  .  . sb . . . "
+        "mn mn mn mn mn mn  mn mn mn mn";
+        } */
+    
+        .box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+        }
+    
+    }
+    
+    @media(max-width: 700px) {
+    
+        /* header {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas: 
+        "nt nt nt  .  .  . sb . . . "
+        "mn mn mn mn mn mn  mn mn mn mn";
+        } */
+    
+        .box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+        }
+    
+        /* .sub-links ul {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(3, 1fr);
+        }
+         */
+    }
+    
+    @media(max-width: 500px) {
+    
+        .wrapper {
+        font-size: 15px;
+        }
+    
+        /* header {
+        margin: 0;
+        padding: 20px 0 0 0;
+        position: static;
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-areas: 
+        "nt"    
+        "mn"
+        "sb";
+        text-align: center;
+        }
+     */
+        /* .netflixLogo {
+        max-width: 100%;
+        margin: auto;
+        padding-right: 20px;
+        }
+    
+        .main-nav {
+        display: grid;
+        grid-gap: 0px;
+        grid-template-columns: repeat(1, 1fr);
+        text-align: center;
+        } */
+/*     
+        h1 {
+        text-align: center;
+        font-size: 18px;
+        } */
+    
+    
+    
+        .box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(1, 1fr);
+        text-align: center;    
+        }
+    
+        .box a:hover {
+        transition: transform .3s;
+        -ms-transform: scale(1);
+        -webkit-transform: scale(1);  
+        transform: scale(1.2);
+        }
+    
+        /* .logos {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        text-align: center;
+        }
+    
+        .sub-links ul {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(1, 1fr);
+        text-align: center;
+        font-size: 15px;
+        } */
+    }
+    </style>
+    {% include 'core/navbar.html' %}
+    <main class='bg-primary_black min-h-screen w-full'>
+        <section class="h-screen relative bg-no-repeat pb-8 pl-6 flex  items-end bg-cover" id="header_title" >
+            <div>
+                <h2 class="text-6xl font-semibold text-white my-4" id="title_id">
+                    
+                </h2>
+                <p class=" w-11/12 md:w-5/12 font-medium text-white my-4" id="description_id">
+                    
+                </p>
+                <div class="flex my-4">
+                    <a id="play_id">
+                    
+                        <button class="flex items-center bg-white py-2 px-5 rounded-md" style='color:black;'>
+                            <ion-icon name="play" class="text-2xl"></ion-icon>
+                            <span class="ml-3 font-medium " >
+                                Play
+                            </span>
+                        </button>
+                    </a>
+
+                    <a id="more_infor_id">
+                        <button class="ml-4 text-white flex items-center bg-gray-500 bg-opacity-80 py-2 px-5 rounded-md">
+                        
+                            <ion-icon name="information-circle-outline" class="text-2xl" ></ion-icon>
+                            <span class="ml-3 font-medium">
+                                More Info
+                            </span>
+                        </button>
+                    
+                    </a>
+    
+                </div>
+            </div>
+        </section> 
+        <section class="main-container" >
+            <div class="location" id="home">
+                <h1 id="home">Popular on Netflix</h1>
+                <div class="box">
+                    {% for movie in movies %}
+                    <a href="{% url 'show_det' movie_id=movie.uuid %}"><img src="{{movie.image_url}}" alt=""></a>   
+                    {% endfor %}
+                    
+                </div>
+            </div>
+            
+      
+            <h1 id="myList">Trending Now</h1>
+            <div class="box">
+                {% for movie in movies_trend %}
+              <a href="{% url 'show_det' movie_id=movie.uuid %}"><img src="{{ movie.image_url }}" alt=""></a>
+               {% endfor %}
+            </div>
+            
+            <h1 id="tvShows">TV Shows</h1>
+            <div class="box">
+            {% for movie in movies %}
+                {%if movie.type == 'Seasonal'%}
+                <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/tv1.PNG?raw=true" alt=""></a>
+                {% endif %}
+            {% endfor %}       
+            </div>
+            
+            
+            <h1 id="movies">Blockbuster Action & Adventure</h1>
+            <div class="box">
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/m1.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/m2.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/m3.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/m4.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/m5.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/m6.PNG?raw=true" alt=""></a>                
+            </div>
+      
+            <h1 id="originals">Netflix Originals</h1>
+            <div class="box">
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/o1.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/o2.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/o3.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/o4.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/o5.PNG?raw=true" alt=""></a>
+              <a href=""><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/o6.PNG?raw=true" alt=""></a>                
+            </div>
+          </section>
+    </main>
+    <script>
+        const uuid = `{{ profile_id }}`
+        const url = `http://127.0.0.1:8000/api/movies/${uuid}/`
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(element => {
+                let image = `/static/${element.flyer}`
+                document.getElementById('header_title').style.backgroundImage = `url(${image})`
+                document.getElementById("title_id").innerHTML = `${element.title}`
+                let desc = `${element.description}`
+                if (desc.length > 50) {
+                    desc = desc.slice(0,50)
+                    document.getElementById("description_id").innerHTML = `${desc}...`
+                } else {
+                    document.getElementById("description_id").innerHTML = `${desc}`
+                }
+                document.getElementById("play_id").href = `/movie/play/${element.uuid}/`
+                document.getElementById("more_infor_id").href = `/movie/detail/${element.uuid}/`
+            })
+        })
+    </script>
+{% endblock content %}
